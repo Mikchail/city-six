@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "./componetns/App.jsx";
+import App from "./componetns/app/app.jsx";
 const data = [
   `Beautiful & luxurious apartment at great location`,
   `Wood and stone place`
