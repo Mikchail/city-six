@@ -29,7 +29,7 @@ class PlaceCard extends PureComponent {
 
           <img
             className="place-card__image"
-            // src={`/${offer.img}`}
+            src={`/${offer.img}`}
             width="260"
             height="200"
             alt="Place image"

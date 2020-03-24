@@ -57,11 +57,11 @@ const Main = (props) => {
                 {advertsCount} places to stay in {activeCity.name}
               </b>
               {/* <SortOptionsHoc /> */}
-              {/* <PlaceCardList
+              <PlaceCardList
                 offers={offers}
                 handleOfferHover={handleOfferHover}
 
-              /> */}
+              />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">

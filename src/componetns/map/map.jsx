@@ -16,18 +16,15 @@ class Map extends PureComponent {
       iconUrl: `img/pin-active.svg`,
       iconSize: [30, 40]
     });
-
   }
 
   createMap() {
     // eslint-disable-next-line react/prop-types
-    const {offers,marker,activeCity}= this.props;
+    const {offers, marker, activeCity} = this.props;
 
     const city = [activeCity.location.latitude, activeCity.location.longitude];
 
-
     const zoom = activeCity.location.zoom;
-
 
     this.map = leaflet.map(`map`, {
       center: city,
@@ -50,29 +47,53 @@ class Map extends PureComponent {
       )
       .addTo(this.map);
 
-      offers.map((offer)=>{
-        console.log([offer.location.latitude, offer.location.longitude]);
+    offers.map((offer) => {
+      console.log([offer.location.latitude, offer.location.longitude]);
 
-        leaflet
-        .marker([offer.location.latitude, offer.location.longitude], {icon: this.icon})
+      leaflet
+        .marker([offer.location.latitude, offer.location.longitude], {
+          icon: this.icon
+        })
         .addTo(this.map);
-      })
-
-
-
+    });
   }
   componentDidMount() {
     this.createMap();
   }
 
-
-
   render() {
-
-
-    return (<div id="map" style={{height: `100%`}}></div>);
+    return <div id="map" style={{height: `100%`}}></div>;
   }
 }
 
+Map.propTypes = {
+  offers: PropTypes.arrayOf(
+    PropTypes.shape({
+      city: PropTypes.shape({
+        location: PropTypes.shape({
+          latitude: PropTypes.number.isRequired,
+          longitude: PropTypes.number.isRequired,
+          zoom: PropTypes.number.isRequired
+        }),
+        name: PropTypes.string.isRequired
+      })
+    })
+  ).isRequired,
+  activeOffer: PropTypes.shape({
+    location: PropTypes.shape({
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired
+    }),
+
+  }),
+  activeCity: PropTypes.shape({
+    location: PropTypes.shape({
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
+      zoom: PropTypes.number.isRequired
+    }),
+    name: PropTypes.string.isRequired,
+  }).isRequired
+};
 
 export default Map;
