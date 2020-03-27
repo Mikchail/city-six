@@ -1,13 +1,13 @@
-import React from "react";
-import PlaceCardList from "../place-card-list/place-card-list.jsx";
-import Map from "../map/map.jsx";
-import {connect} from "react-redux";
-import {NameSpace} from "../../constants";
-import SortOptions from "../sort-options/sort-options.jsx";
-import LocationList from '../location-list/loacation-list.jsx'
-const Main = (props) => {
+import React from 'react';
+import PlaceCardList from '../place-card-list/place-card-list.jsx';
+import Map from '../map/map.jsx';
+import { connect } from 'react-redux';
+import { NameSpace } from '../../constants';
+import SortOptions from '../sort-options/sort-options.jsx';
+import LocationList from '../location-list/loacation-list.jsx';
+const Main = props => {
   // eslint-disable-next-line react/prop-types
-  const {offers, handleOfferHover, marker, activeCity} = props;
+  const { offers, handleOfferHover, marker, activeCity } = props;
   const advertsCount = offers.length;
 
   return (
@@ -78,16 +78,13 @@ const Main = (props) => {
 };
 
 const mapStateToProps = ({
-  [NameSpace.OFFERS]: {offers, activeCity }, [NameSpace.SORT]: {marker}
-
+  [NameSpace.OFFERS]: { offers, activeCity },
+  [NameSpace.SORT]: { marker },
 }) => {
-  console.log(marker);
-
   return {
     offers,
     activeCity,
-    marker
-
+    marker,
   };
 };
 

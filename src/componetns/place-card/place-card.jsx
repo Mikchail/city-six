@@ -1,5 +1,5 @@
-import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 class PlaceCard extends PureComponent {
   constructor(props) {
@@ -13,7 +13,8 @@ class PlaceCard extends PureComponent {
     }
   }
   render() {
-    const {offer, handleOfferHover} = this.props;
+    const { offer, handleOfferHover } = this.props;
+
     return (
       <article
         className={`place-card`}
@@ -57,7 +58,7 @@ class PlaceCard extends PureComponent {
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
-          <h2 className="place-card__name">{offer.name}</h2>
+          <h2 className="place-card__name">{offer.city.name}</h2>
           <p className="place-card__type">{offer.type}</p>
         </div>
       </article>
@@ -67,11 +68,11 @@ class PlaceCard extends PureComponent {
 
 PlaceCard.propTypes = {
   offer: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    // name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
   }).isRequired,
-  handleOfferHover: PropTypes.func
+  handleOfferHover: PropTypes.func,
 };
 
 export default PlaceCard;

@@ -62,9 +62,9 @@ SortOptions.propTypes = {
 }
 
 
-const mapStateToProps = ({OFFERS:{sortType}}) => {
+const mapStateToProps = (state) => {
   return{
-    sortType
+    sortType: state['SORT'].sortType
   }
 }
 

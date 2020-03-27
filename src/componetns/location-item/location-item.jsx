@@ -1,7 +1,7 @@
-import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { changeCites } from '../../actions/cities-action';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 class LocationListItem extends PureComponent {
   constructor(props) {
@@ -16,7 +16,7 @@ class LocationListItem extends PureComponent {
   }
 
   render() {
-    const {activeCity, city} = props;
+    const { activeCity, city } = props;
 
     return (
       <li className="locations__item">
@@ -40,18 +40,16 @@ class LocationListItem extends PureComponent {
 //   city: PropTypes.string.isRequired
 // };
 
-const mapStateToProps = ({OFFERS: {activeCity}}) => {
-  console.log(activeCity)
-  return{
-    activeCity
-  }
+const mapStateToProps = ({ OFFERS: { activeCity } }) => {
+  return {
+    activeCity,
+  };
 };
 
-const mapDispatchToProps = (dispatch) =>({
-  handleCityClick(activeCity){
+const mapDispatchToProps = dispatch => ({
+  handleCityClick(activeCity) {
     dispatch(changeCites(activeCity));
-  }
-})
+  },
+});
 
-export default connect(mapStateToProps,mapDispatchToProps)(LocationListItem);
-
+export default connect(mapStateToProps, mapDispatchToProps)(LocationListItem);

@@ -1,6 +1,6 @@
-import React, {PureComponent} from "react";
-import leaflet from "leaflet";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import leaflet from 'leaflet';
+import PropTypes from 'prop-types';
 
 class Map extends PureComponent {
   constructor() {
@@ -9,18 +9,18 @@ class Map extends PureComponent {
 
     this.icon = leaflet.icon({
       iconUrl: `img/pin.svg`,
-      iconSize: [30, 40]
+      iconSize: [30, 40],
     });
 
     this.iconActive = leaflet.icon({
       iconUrl: `img/pin-active.svg`,
-      iconSize: [30, 40]
+      iconSize: [30, 40],
     });
   }
 
   createMap() {
     // eslint-disable-next-line react/prop-types
-    const {offers, marker, activeCity} = this.props;
+    const { offers, marker, activeCity } = this.props;
 
     const city = [activeCity.location.latitude, activeCity.location.longitude];
 
@@ -30,7 +30,7 @@ class Map extends PureComponent {
       center: city,
       zoom,
       zoomControl: false,
-      marker: true
+      marker: true,
     });
 
     this.map.setView(city, zoom);
@@ -42,17 +42,15 @@ class Map extends PureComponent {
         `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
         {
           attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         }
       )
       .addTo(this.map);
 
-    offers.map((offer) => {
-      console.log([offer.location.latitude, offer.location.longitude]);
-
+    offers.map(offer => {
       leaflet
         .marker([offer.location.latitude, offer.location.longitude], {
-          icon: this.icon
+          icon: this.icon,
         })
         .addTo(this.map);
     });
@@ -62,7 +60,7 @@ class Map extends PureComponent {
   }
 
   render() {
-    return <div id="map" style={{height: `100%`}}></div>;
+    return <div id="map" style={{ height: `100%` }}></div>;
   }
 }
 
@@ -73,27 +71,26 @@ Map.propTypes = {
         location: PropTypes.shape({
           latitude: PropTypes.number.isRequired,
           longitude: PropTypes.number.isRequired,
-          zoom: PropTypes.number.isRequired
+          zoom: PropTypes.number.isRequired,
         }),
-        name: PropTypes.string.isRequired
-      })
+        name: PropTypes.string.isRequired,
+      }),
     })
   ).isRequired,
   activeOffer: PropTypes.shape({
     location: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired
+      longitude: PropTypes.number.isRequired,
     }),
-
   }),
   activeCity: PropTypes.shape({
     location: PropTypes.shape({
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired,
-      zoom: PropTypes.number.isRequired
+      zoom: PropTypes.number.isRequired,
     }),
     name: PropTypes.string.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 export default Map;

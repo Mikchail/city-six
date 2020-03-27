@@ -8,7 +8,7 @@ const initialState = {
   marker: null,
 };
 
-const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.SORT_OFFERS:
       return extend(state, { marker: action.payload });
@@ -19,4 +19,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export { reducer };
+
