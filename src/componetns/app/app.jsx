@@ -1,13 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Main from '../main/main.jsx';
-import {createOffers} from '../../mocks/offers.js';
-import { getCities,extend,getOffersByCity } from "../../utils.js";
+import Main from "../main/main.jsx";
 
-const OFFERS_QUANTITY = 8;
-const offers = createOffers(OFFERS_QUANTITY);
 
-const cities = getCities(offers);
 // const initialState = {
 //   cities,
 //   activeCity: cities[0],
@@ -16,25 +10,17 @@ const cities = getCities(offers);
 //   marker: null,
 // }
 const handleOfferHover = () => {
-  console.log(`вот`)
-}
+  console.log(`вот`);
+};
 // const {offersCords, offers, handleOfferHover,marker, activeCity} = props;
-const App = (props) => {
+const App = props => {
   return (
     <div>
-
-    <Main
-      offers={getOffersByCity(offers, cities[0].name)}
-      activeCity={cities[0]}
-      sortType={`Popular`}
-      marker={null}
-      handleOfferHover={handleOfferHover}
-    />
+      <Main
+        handleOfferHover={handleOfferHover}
+      />
     </div>
   );
-};
-App.propTypes = {
-  data: PropTypes.array
 };
 
 export default App;

@@ -1,10 +1,13 @@
 import React from "react";
 import PlaceCardList from "../place-card-list/place-card-list.jsx";
 import Map from "../map/map.jsx";
-
+import {connect} from "react-redux";
+import {NameSpace} from "../../constants";
+import SortOptions from "../sort-options/sort-options.jsx";
+import LocationList from '../location-list/loacation-list.jsx'
 const Main = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { offers, handleOfferHover,marker, activeCity} = props;
+  const {offers, handleOfferHover, marker, activeCity} = props;
   const advertsCount = offers.length;
 
   return (
@@ -46,7 +49,7 @@ const Main = (props) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            {/* <LocationsList /> */}
+            <LocationList />
           </section>
         </div>
         <div className="cities">
@@ -56,11 +59,10 @@ const Main = (props) => {
               <b className="places__found">
                 {advertsCount} places to stay in {activeCity.name}
               </b>
-              {/* <SortOptionsHoc /> */}
+              <SortOptions />
               <PlaceCardList
                 offers={offers}
                 handleOfferHover={handleOfferHover}
-
               />
             </section>
             <div className="cities__right-section">
@@ -72,8 +74,21 @@ const Main = (props) => {
         </div>
       </main>
     </div>
-
   );
 };
 
-export default Main;
+const mapStateToProps = ({
+  [NameSpace.OFFERS]: {offers, activeCity }, [NameSpace.SORT]: {marker}
+
+}) => {
+  console.log(marker);
+
+  return {
+    offers,
+    activeCity,
+    marker
+
+  };
+};
+
+export default connect(mapStateToProps)(Main);

@@ -23,7 +23,7 @@ export const getOffersByCity = (array, city) => {
   return array.filter((item) => item.city.name === city);
 };
 
-export const SortType = {
+export const SortTypes = {
   POPULAR: `Popular`,
   PRICE_TO_HIGH: `Price: low to high`,
   PRICE_TO_LOW: `Price: high to low`,
