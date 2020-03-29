@@ -1,10 +1,9 @@
-import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
-import {sortOffers, highlightMarker} from "../../actions/sort-action";
-import {SortTypes} from "../../utils.js";
-import withActiveItem from "../hocs/withActiveitem.jsx";
-import { connect } from "react-redux";
-
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import {ActionCreator} from '../../actions/action-creator';
+import {SortTypes} from '../../utils.js';
+import withActiveItem from '../hocs/withActiveitem.jsx';
+import {connect} from 'react-redux';
 
 class SortOptions extends PureComponent {
   render() {
@@ -13,7 +12,7 @@ class SortOptions extends PureComponent {
       handleOffersSort,
       sortType,
       isOpened,
-      handleToggleClick
+      handleToggleClick,
     } = this.props;
 
     return (
@@ -55,23 +54,23 @@ class SortOptions extends PureComponent {
   }
 }
 
-
 SortOptions.propTypes = {
   handleOffersSort: PropTypes.func.isRequired,
   sortType: PropTypes.string.isRequired,
-}
-
+};
 
 const mapStateToProps = (state) => {
-  return{
-    sortType: state['SORT'].sortType
-  }
-}
+  return {
+    sortType: state[`SORT`].sortType,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
-    handleOffersSort(sortType){
-      dispatch(sortOffers(sortType))
-    }
-})
+  handleOffersSort(sortType) {
+    dispatch(ActionCreator.sortOffers(sortType));
+  },
+});
 
-export default withActiveItem(connect(mapStateToProps,mapDispatchToProps)(SortOptions))
+export default withActiveItem(
+  connect(mapStateToProps, mapDispatchToProps)(SortOptions)
+);

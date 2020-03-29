@@ -1,13 +1,15 @@
 import React from 'react';
 import PlaceCardList from '../place-card-list/place-card-list.jsx';
 import Map from '../map/map.jsx';
-import { connect } from 'react-redux';
-import { NameSpace } from '../../constants';
+import {selectOffers} from '../../reducer/cities-reduser';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../actions/action-creator';
+import {CITIES} from '../../utils.js';
 import SortOptions from '../sort-options/sort-options.jsx';
 import LocationList from '../location-list/loacation-list.jsx';
-const Main = props => {
+const Main = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { offers, handleOfferHover, marker, activeCity } = props;
+  const {offers, handleOfferHover, marker, activeCity} = props;
   const advertsCount = offers.length;
 
   return (
@@ -63,6 +65,7 @@ const Main = props => {
               <PlaceCardList
                 offers={offers}
                 handleOfferHover={handleOfferHover}
+                listClass={CITIES}
               />
             </section>
             <div className="cities__right-section">
@@ -77,15 +80,16 @@ const Main = props => {
   );
 };
 
-const mapStateToProps = ({
-  [NameSpace.OFFERS]: { offers, activeCity },
-  [NameSpace.SORT]: { marker },
-}) => {
+const mapStateToProps = (state) => {
   return {
-    offers,
-    activeCity,
-    marker,
+    offers: selectOffers(state),
+    activeCity: state[`OFFERS`].activeCity,
+    marker: state[`SORT`].marker,
   };
 };
-
-export default connect(mapStateToProps)(Main);
+const mapDispatchToProps = (dispatch) => ({
+  handleOfferHover: (offer) => {
+    dispatch(ActionCreator.highlightMarker(offer));
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

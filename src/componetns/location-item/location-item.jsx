@@ -1,12 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import { changeCites } from '../../actions/cities-action';
-import { connect } from 'react-redux';
+import {ActionCreator} from '../../actions/action-creator';
+import {connect} from 'react-redux';
 
 class LocationListItem extends PureComponent {
   constructor(props) {
     super(props);
-
     this._handleCityClick = this._handleCityClick.bind(this);
   }
 
@@ -16,15 +15,15 @@ class LocationListItem extends PureComponent {
   }
 
   render() {
-    const { activeCity, city } = props;
+    // eslint-disable-next-line react/prop-types,no-unused-vars
+    const {activeCity, city} = this.props;
 
     return (
       <li className="locations__item">
         {/* eslint-disable-next-line react/prop-types */}
         <a
-          className={`location__item-link tabs__item ${
-            activeCity.name === city.name ? ` tabs__item--active` : ``
-          }`}
+          className={`locations__item-link tabs__item
+           ${activeCity.name === city.name ? ` tabs__item--active` : ``}`}
           onClick={this._handleCityClick}
           href="#"
         >
@@ -40,15 +39,13 @@ class LocationListItem extends PureComponent {
 //   city: PropTypes.string.isRequired
 // };
 
-const mapStateToProps = ({ OFFERS: { activeCity } }) => {
-  return {
-    activeCity,
-  };
-};
+const mapStateToProps = (state) => ({
+  activeCity: state[`OFFERS`].activeCity,
+});
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   handleCityClick(activeCity) {
-    dispatch(changeCites(activeCity));
+    dispatch(ActionCreator.changeCity(activeCity));
   },
 });
 

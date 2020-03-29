@@ -1,27 +1,16 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import Main from '../main/main.jsx';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
-// const initialState = {
-//   cities,
-//   activeCity: cities[0],
-//   offers: getOffersByCity(offers, cities[0].name),
-//   sortType: `Popular`,
-//   marker: null,
-// }
-const handleOfferHover = () => {
-  console.log(`вот`);
-};
-// const {offersCords, offers, handleOfferHover,marker, activeCity} = props;
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {connect} from 'react-redux';
+
 class App extends PureComponent {
   constructor(props) {
     super(props);
   }
   _renderAplication() {
     // eslint-disable-next-line react/prop-types
-    const { loadCity, error } = this.props;
-      
-      
+    const {loadCity, error} = this.props;
+
     if (!loadCity) {
       return <div>Loading</div>;
     }
@@ -44,13 +33,13 @@ class App extends PureComponent {
           <Route exact path="/">
             {/* something */}
           </Route>
-          <Main handleOfferHover={handleOfferHover} />
+          <Main />
         </Switch>
       </BrowserRouter>
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loadCity: state[`OFFERS`].loadCity,
     error: state[`OFFERS`].error,

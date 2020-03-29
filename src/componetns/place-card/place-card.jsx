@@ -1,5 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
+import {CITIES, ratingToStar} from '../../utils.js';
 
 class PlaceCard extends PureComponent {
   constructor(props) {
@@ -13,11 +15,18 @@ class PlaceCard extends PureComponent {
     }
   }
   render() {
-    const { offer, handleOfferHover } = this.props;
-
+    const premium = (
+      <div className="place-card__mark">
+        <span>Premium</span>
+      </div>
+    );
+    const {offer, cardClass, handleOfferHover} = this.props;
+    const rating = ratingToStar(offer.rating);
     return (
       <article
-        className={`place-card`}
+        className={`${
+          cardClass === CITIES ? `cities__place-card` : `near-places__card`
+        } place-card`}
         onMouseEnter={this._handleOfferHover}
         onMouseLeave={() => {
           if (handleOfferHover) {
@@ -25,16 +34,32 @@ class PlaceCard extends PureComponent {
           }
         }}
       >
+        {offer.isPremium ? premium : null}
+        <div
+          className={`${
+            cardClass === CITIES ? CITIES : `near-places`
+          }__image-wrapper place-card__image-wrapper`}
+        >
+          <Link to={`/offer/${offer.id}`}>
+            <img
+              className="place-card__image"
+              src={`${offer.preview_image}`}
+              width="260"
+              height="200"
+              alt="Place image"
+            />
+          </Link>
+        </div>
         <div className={`place-card__image-wrapper`}>
           {/* eslint-disable-next-line react/prop-types */}
 
-          <img
+          {/* <img
             className="place-card__image"
-            src={`/${offer.img}`}
+            src={`${offer.preview_image}`}
             width="260"
             height="200"
             alt="Place image"
-          />
+          /> */}
         </div>
         <div className="place-card__info">
           <div className="place-card__price-wrapper">
@@ -54,7 +79,7 @@ class PlaceCard extends PureComponent {
           </div>
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
-              <span />
+              <span style={{width: rating + `%`}} />
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
@@ -71,8 +96,10 @@ PlaceCard.propTypes = {
     // name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
+    preview_image: PropTypes.string,
   }).isRequired,
   handleOfferHover: PropTypes.func,
+  cardClass: PropTypes.string,
 };
 
 export default PlaceCard;

@@ -1,8 +1,8 @@
-import { ActionType } from '../constants';
-import { extend, getCities, SortTypes, getOffersByCity } from '../utils.js';
-import { createSelector } from 'reselect';
+import {ActionType} from '../constants';
+import {extend, getCities, SortTypes, getOffersByCity} from '../utils.js';
+import {createSelector} from 'reselect';
 
-import { loadOffers } from '../actions/cities-action';
+import {ActionCreator} from '../actions/action-creator';
 
 const initialState = {
   loadCity: null,
@@ -12,7 +12,10 @@ const initialState = {
   offers: [],
 };
 
-export const getSortType = state => {
+// ================================
+// тут пиздец
+
+export const getSortType = (state) => {
   return state[`SORT`].sortType;
 };
 
@@ -25,10 +28,15 @@ function getCitiesList(state) {
 function getOffers(state) {
   return state[`OFFERS`].offers;
 }
+// =======================================
+// =========================================================================
+// ==========================================================================================================
+
 const getOffersByActiveCity = createSelector(
   [getOffers, getActieCity],
   (offers, activeCity) => getOffersByCity(offers, activeCity.name)
 );
+
 
 function getSortedOffers(offers, sortType) {
   switch (sortType) {
@@ -41,19 +49,20 @@ function getSortedOffers(offers, sortType) {
   }
   return offers;
 }
-export const sortOffersBySortType = createSelector(
-  [getOffersByActiveCity, getSortType],
-  (offers, sortType) => getSortedOffers(offers, sortType)
-);
+export const sortOffersBySortType = createSelector([
+  getOffersByActiveCity,
+  getSortType,
+], (offers, sortType) => getSortedOffers(offers, sortType));
+
 
 export const Operation = {
   download: () => (dispatch, getState, api) => {
     return api
       .get(`/hotels`)
-      .then(response => {
-        dispatch(loadOffers(response.data));
+      .then((response) => {
+        dispatch(ActionCreator.loadOffers(response.data));
       })
-      .catch(err => {
+      .catch((err) => {
         throw err;
       });
   },
@@ -70,13 +79,13 @@ export const reducer = (state = initialState, action) => {
         activeCity: cities[0],
       });
     case ActionType.CHANGE_CITY:
-      return extend(state, { activeCity: action.payload });
+      return extend(state, {activeCity: action.payload});
     case ActionType.GET_ERROR:
-      return extend(state, { error: action.payload, loadCity: `fail` });
+      return extend(state, {error: action.payload, loadCity: `fail`});
     default:
       return state;
   }
 };
-export const selectOffers = state => {
+export const selectOffers = (state) => {
   return sortOffersBySortType(state);
 };

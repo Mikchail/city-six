@@ -1,6 +1,8 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import PlaceCard from "../place-card/place-card.jsx";
+import {CITIES} from "../../utils.js";
+
 
 class PlaceCardList extends PureComponent {
   constructor(props) {
@@ -9,13 +11,14 @@ class PlaceCardList extends PureComponent {
 
   render() {
     // eslint-disable-next-line react/prop-types
-    const {offers, handleOfferHover} = this.props;
+    const {offers, listClass, handleOfferHover} = this.props;
     return (
-      <div className="places__list">
+      <div className={`${listClass === CITIES ? `cities__places-list tabs__content` : `near-places__list`} places__list`}>
         {offers.map((offer, index) => {
           return <PlaceCard
             key={index}
             offer={offer}
+            cardClass={listClass}
             handleOfferHover={handleOfferHover}
           />;
         })}

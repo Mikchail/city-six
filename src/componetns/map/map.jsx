@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import leaflet from 'leaflet';
 import PropTypes from 'prop-types';
 
@@ -16,11 +16,22 @@ class Map extends PureComponent {
       iconUrl: `img/pin-active.svg`,
       iconSize: [30, 40],
     });
+
+    this._highlightMarker = this._highlightMarker.bind(this);
+  }
+
+  _highlightMarker(offer) {
+    leaflet
+      .marker([offer.location.latitude, offer.location.longitude], {
+        icon: this.iconActive,
+      })
+      .addTo(this.map);
   }
 
   createMap() {
     // eslint-disable-next-line react/prop-types
-    const { offers, marker, activeCity } = this.props;
+    // activeOffer ????
+    const {offers, marker, activeOffer, activeCity} = this.props;
 
     const city = [activeCity.location.latitude, activeCity.location.longitude];
 
@@ -47,20 +58,52 @@ class Map extends PureComponent {
       )
       .addTo(this.map);
 
-    offers.map(offer => {
+    offers.map((offer) => {
       leaflet
         .marker([offer.location.latitude, offer.location.longitude], {
           icon: this.icon,
         })
         .addTo(this.map);
     });
+    if (activeOffer) {
+      leaflet
+        .marker(
+          [activeOffer.location.latitude, activeOffer.location.longitude],
+          {icon: this.iconActive}
+        )
+        .addTo(this.map);
+    }
   }
   componentDidMount() {
     this.createMap();
   }
 
+  componentDidUpdate() {
+    const {marker} = this.props;
+    if (this.leafletMap) {
+      this.leafletMap.eachLayer((layer) => {
+        layer.remove();
+      });
+      this.leafletMap.remove();
+
+      this.createMap();
+
+      if (marker) {
+        this._highlightMarker(marker);
+      }
+    }
+  }
+  componentWillUnmount() {
+    if (this.leafletMap) {
+      this.leafletMap.eachLayer((layer) => {
+        layer.remove();
+      });
+      this.leafletMap.remove();
+      this.leafletMap = null;
+    }
+  }
   render() {
-    return <div id="map" style={{ height: `100%` }}></div>;
+    return <div id="map" style={{height: `100%`}}></div>;
   }
 }
 
