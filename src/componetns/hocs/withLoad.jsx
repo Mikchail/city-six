@@ -1,0 +1,46 @@
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+// import {LoadingOfferStatus} from "../../reducer/offers/offers";
+
+const withLoad = (Component, loadSelector, errorSelector) =>
+  connect((state) => ({
+    loadingOfferStatus: loadSelector(state),
+    error: errorSelector(state),
+  }))(
+    class WithLoad extends PureComponent {
+      constructor(props) {
+        super(props);
+      }
+
+      render() {
+        const {loadingOfferStatus, error} = this.props;
+
+        return (
+          <>
+            {loadingOfferStatus === LoadingOfferStatus.PROCESSING && (
+              <div style={{fontSize: 60 + `px`}}>
+                <p>Connection...</p>
+              </div>
+            )}
+            {/* eslint-disable-next-line react/prop-types */}
+            {error && (
+              <div style={{fontSize: 60 + `px`, color: `red`}}>
+                <p>Connection... FAIL {error.status}</p>
+              </div>
+            )}
+            {loadingOfferStatus === LoadingOfferStatus.SUCCESS && (
+              <Component {...this.props} />
+            )}
+          </>
+        );
+      }
+    }
+  );
+
+withLoad.propTypes = {
+  loadingOfferStatus: PropTypes.func.isRequired,
+  error: PropTypes.object,
+};
+
+export default withLoad;

@@ -6,7 +6,7 @@ class Map extends PureComponent {
   constructor() {
     super();
     this.map = null;
-
+    this.markers = [];
     this.icon = leaflet.icon({
       iconUrl: `img/pin.svg`,
       iconSize: [30, 40],
@@ -74,23 +74,48 @@ class Map extends PureComponent {
         .addTo(this.map);
     }
   }
+
+  setCity() {
+    const {activeCity} = this.props;
+    const city = [activeCity.location.latitude, activeCity.location.longitude];
+    const zoom = activeCity.location.zoom;
+    this.map.setView(city, zoom);
+  }
+
+  addMarkers() {
+    const {activeOffer, offers} = this.props;
+    this.markers = offers.map((offer) =>
+      leaflet
+        .marker([offer.location.latitude, offer.location.longitude], {
+          icon: this.icon,
+        })
+        .addTo(this.map)
+    );
+    if (activeOffer) {
+      this.markers.push(
+        leaflet
+          .marker(
+            [activeOffer.location.latitude, activeOffer.location.longitude],
+            {icon: this.iconActive}
+          )
+          .addTo(this.map)
+      );
+    }
+  }
+
   componentDidMount() {
     this.createMap();
   }
 
-  componentDidUpdate() {
-    const {marker} = this.props;
-    if (this.leafletMap) {
-      this.leafletMap.eachLayer((layer) => {
-        layer.remove();
-      });
-      this.leafletMap.remove();
-
-      this.createMap();
-
-      if (marker) {
-        this._highlightMarker(marker);
-      }
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.offers !== this.offers ||
+      prevProps.activeCity !== this.activeCity ||
+      prevProps.activeOffer !== this.activeOffer
+    ) {
+      this.markers.forEach((marker) => marker.remove());
+      this.addMarkers();
+      this.setCity();
     }
   }
   componentWillUnmount() {
