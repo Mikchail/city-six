@@ -1,12 +1,13 @@
 import React from 'react';
 import PlaceCardList from '../place-card-list/place-card-list.jsx';
 import Map from '../map/map.jsx';
-import {selectOffers} from '../../reducer/cities-reduser';
+import {selectOffers} from '../../reducer/cities-selectors';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../actions/action-creator';
 import {CITIES} from '../../utils.js';
 import SortOptions from '../sort-options/sort-options.jsx';
 import LocationList from '../location-list/loacation-list.jsx';
+
 const Main = (props) => {
   // eslint-disable-next-line react/prop-types
   const {offers, handleOfferHover, marker, activeCity} = props;
@@ -80,13 +81,11 @@ const Main = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    offers: selectOffers(state),
-    activeCity: state[`OFFERS`].activeCity,
-    marker: state[`SORT`].marker,
-  };
-};
+const mapStateToProps = (state) => ({
+  offers: selectOffers(state),
+  activeCity: state[`OFFERS`].activeCity,
+  marker: state[`SORT`].marker,
+});
 const mapDispatchToProps = (dispatch) => ({
   handleOfferHover: (offer) => {
     dispatch(ActionCreator.highlightMarker(offer));

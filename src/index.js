@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
 import {applyMiddleware, createStore} from 'redux';
 import {Provider} from 'react-redux';
-import {Operation} from './reducer/cities-reduser.js';
+import {Operation} from './reducer/cities-reducer.js';
 import {createApi} from './api/api';
 import {ActionCreator} from './actions/action-creator';
-import reducer from './reducer/index.js';
+import reducer from './reducer/rootReducer';
 import App from './componetns/app/app.jsx';
 import {composeWithDevTools} from 'redux-devtools-extension';
 
@@ -20,10 +20,11 @@ export const onError = (err) => {
   store.dispatch(ActionCreator.getError(err));
   store.dispatch(Operation.changeState());
 };
-store.dispatch(Operation.download());
-ReactDOM.render(
+
+const render = () => (
   <Provider store={store}>
     <App />
-  </Provider>,
-  document.getElementById(`root`)
+  </Provider>
 );
+store.dispatch(Operation.download());
+ReactDOM.render(render(), document.getElementById(`root`));

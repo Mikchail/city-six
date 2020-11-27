@@ -1,4 +1,8 @@
 {
     "prettier.arrowParens": "always",
-    "prettier.proseWrap": "never"
+    "prettier.proseWrap": "never",
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSaveMode": "modifications",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": null
 }

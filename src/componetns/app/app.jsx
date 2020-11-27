@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
-import Main from '../main/main.jsx';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {connect} from 'react-redux';
+import Main from '../main/main.jsx';
+import Offer from '../offer/offer.jsx';
 
 class App extends PureComponent {
   constructor(props) {
@@ -30,8 +31,8 @@ class App extends PureComponent {
           <Route exact path="/">
             {this._renderAplication()}
           </Route>
-          <Route exact path="/">
-            {/* something */}
+          <Route path="/offer/:id">
+           <Offer/>
           </Route>
           <Main />
         </Switch>
