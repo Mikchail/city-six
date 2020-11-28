@@ -10,5 +10,6 @@ export const ActionType = {
 export const NameSpace = {
   OFFERS: `OFFERS`,
   SORT: `SORT`,
-  REVIEW: `REVIEW`
+  REVIEW: `REVIEW`,
+  USER: `USER`
 };

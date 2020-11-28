@@ -1,12 +1,17 @@
 const initialState = {
   reviews: [],
   isErrorReviews: false,
-  isLoadingReviews: true
+  isLoadingReviews: true,
+
+  addReviewsError: false,
 }
 const ActionType = {
   LOAD_REVIEWS: `LOAD_REVIEWS`,
   SET_ERROR_REVIEWS: `SET_ERROR_REVIEWS`,
-  SET_LOADING_REVIEWS: `SET_LOADING_REVIEWS`
+  SET_LOADING_REVIEWS: `SET_LOADING_REVIEWS`,
+
+  ADD_REVIEWS: `ADD_REVIEWS`,
+  ADD_REVIEWS_ERROR: `ADD_REVIEWS_ERROR`,
 }
 
 export const ActionCreate = {
@@ -14,12 +19,16 @@ export const ActionCreate = {
     type: ActionType.LOAD_REVIEWS,
     payload: reviews
   }),
-  setErrorRiview: (err) => ({
+  setErrorReview: (err) => ({
     type: ActionType.SET_ERROR_REVIEWS,
     payload: err
   }),
-  setLoadingRiview: (loading) => ({
+  setLoadingReview: (loading) => ({
     type: ActionType.SET_LOADING_REVIEWS,
+    payload: loading
+  }),
+  addReview: (loading) => ({
+    type: ActionType.ADD_REVIEWS,
     payload: loading
   })
 }
@@ -27,11 +36,21 @@ export const Operations = {
   loadReview: (id) => (dispatch, _getState, api) => {
     return api.get(`/comments/${id}`).then((res) => {
       dispatch(ActionCreate.loadReivew(res.data))
-      dispatch(ActionCreate.setErrorRiview(false))
-      dispatch(ActionCreate.setLoadingRiview(false))
+      dispatch(ActionCreate.setErrorReview(false))
+      dispatch(ActionCreate.setLoadingReview(false))
     }).catch((error) => {
-      dispatch(ActionCreate.setErrorRiview(error))
-      dispatch(ActionCreate.setLoadingRiview(false))
+      dispatch(ActionCreate.setErrorReview(error))
+      dispatch(ActionCreate.setLoadingReview(false))
+    })
+  },
+  addReview: (id, body) => (dispatch, _getState, api) => {
+    return api.post(`/comments/${id}`, body).then((res) => {
+      dispatch(ActionCreate.loadReivew(res.data))
+      dispatch(ActionCreate.setErrorReview(false))
+      dispatch(ActionCreate.setLoadingReview(false))
+    }).catch((error) => {
+      dispatch(ActionCreate.setErrorReview(error))
+      dispatch(ActionCreate.setLoadingReview(false))
     })
   }
 }

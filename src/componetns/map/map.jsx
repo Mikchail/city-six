@@ -128,7 +128,7 @@ class Map extends PureComponent {
     }
   }
   render() {
-    return <div id="map" style={{height: `100%`}}></div>;
+    return <div id="map" style={{height: `100%`}}/>;
   }
 }
 

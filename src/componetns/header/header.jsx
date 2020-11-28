@@ -8,7 +8,7 @@ const AuthorizationStatus = {
 const Header = (props) => {
   const {authorizationStatus = false, userData = ''} = props;
   const isAuth = authorizationStatus === AuthorizationStatus.AUTH;
-  const link = isAuth ? `/favorites` : `/login`;
+  const link = isAuth ? `/favorites` : `/sign-in`;
 
   const avatarStyle = {
     backgroundImage: `url(${userData.avatarUrl})`,

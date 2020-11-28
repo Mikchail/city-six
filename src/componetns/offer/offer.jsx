@@ -6,6 +6,7 @@ import {getOfferById} from '../../reducer/cities-selectors'
 import Header from '../header/header';
 import ReviewsList from "../reviews-list/reviews-list";
 import FormADDReview from "../form-add-review/form-add-review";
+import Map from "../map/map";
 
 const Offer = (props) => {
   const {offerById, loadReview, reviews} = props;
@@ -143,7 +144,8 @@ const Offer = (props) => {
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <Map offers={offer} />
+          {/*<section className="property__map map"></section>*/}
         </section>
         <div className="container">
           <section className="near-places places">
@@ -234,7 +236,7 @@ const Offer = (props) => {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: '80%'}}></span>
+                      <span style={{width: '80%'}}/>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>
@@ -274,14 +276,14 @@ const Offer = (props) => {
                         width="18"
                         height="19"
                       >
-                        <use xlinkHref="#icon-bookmark"></use>
+                        <use xlinkHref="#icon-bookmark"/>
                       </svg>
                       <span className="visually-hidden">To bookmarks</span>
                     </button>
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: '100%'}}></span>
+                      <span style={{width: '100%'}}/>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>

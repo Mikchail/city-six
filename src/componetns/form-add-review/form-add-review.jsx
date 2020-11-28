@@ -1,6 +1,11 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {Operations as ReviewOperations} from "../../reducer/review-reducer";
+import {connect} from "react-redux";
 
 const FormADDReview = (props) => {
+  const {id} = useParams()
+  console.log(id)
   const [rating, setRating] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -11,21 +16,22 @@ const FormADDReview = (props) => {
 
     }
   }
-  useEffect(()=>{
-    if(!rating){
-      setRating(false)
-    }
-  },[rating])
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(rating,message)
+    props.addReview(id,
+      {
+        "rating": rating,
+        "comment": message
+      }
+    )
     setRating(false)
     setMessage('')
   }
   const disabled = !(rating && message.length > 50)
   return (
 
-    <form  onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
+    <form onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -118,7 +124,7 @@ const FormADDReview = (props) => {
       </div>
 
       <textarea
-        onChange={(evt)=>setMessage(evt.target.value)}
+        onChange={(evt) => setMessage(evt.target.value)}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
@@ -145,4 +151,11 @@ const FormADDReview = (props) => {
 }
 
 
-export default FormADDReview;
+const mapDispatchToProps = (dispatch) => ({
+
+  addReview: (id, body) => {
+    dispatch(ReviewOperations.addReview(id, body));
+  }
+});
+
+export default connect(null, mapDispatchToProps)(FormADDReview);

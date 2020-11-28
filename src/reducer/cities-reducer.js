@@ -13,7 +13,7 @@ const initialState = {
 
 // ================================
 
-export const Operation = {
+export const Operations = {
   download: () => (dispatch, getState, api) => {
     return api
       .get(`/hotels`)

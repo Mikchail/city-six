@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Main from '../main/main.jsx';
 import Offer from '../offer/offer.jsx';
+import SingIn from "../signin/signin";
 
 class App extends PureComponent {
   constructor(props) {
@@ -34,6 +35,10 @@ class App extends PureComponent {
           <Route path="/offer/:id">
            <Offer/>
           </Route>
+          <Route path="/sign-in">
+            <SingIn/>
+          </Route>
+
           <Main />
         </Switch>
       </BrowserRouter>
