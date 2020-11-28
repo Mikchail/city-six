@@ -28,7 +28,7 @@ class Review extends PureComponent {
   }
   render() {
     const {rating, comment, date, user} = this.props.review;
-
+    console.log(this.props.review)
     const ratingReview = ratingToStar(rating);
     return (
       <li className="reviews__item">
@@ -36,7 +36,7 @@ class Review extends PureComponent {
           <div className="reviews__avatar-wrapper user__avatar-wrapper">
             <img
               className="reviews__avatar user__avatar"
-              src={user.avatarUrl}
+              src={user.avatar_url}
               width="54"
               height="54"
               alt="Reviews avatar"

@@ -12,8 +12,8 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 const api = createApi();
 const store = createStore(
-  reducer,
-  composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)))
+    reducer,
+    composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)))
 );
 
 export const onError = (err) => {
