@@ -5,6 +5,14 @@ export const ActionCreator = {
     type: ActionType.LOAD_OFFERS,
     payload,
   }),
+  loadFavoriteOffers: (payload) => ({
+    type: ActionType.LOAD_FAVORITE_OFFERS,
+    payload,
+  }),
+  changeFavorite: (payload) => ({
+  type: ActionType.CHANGE_FAVORITE_CITY,
+  payload,
+}),
   changeCity: (payload) => ({
     type: ActionType.CHANGE_CITY,
     payload,

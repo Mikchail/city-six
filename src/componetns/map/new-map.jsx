@@ -1,26 +1,23 @@
 import React, {PureComponent} from 'react';
 import leaflet from 'leaflet';
-import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
-import {withRouter} from 'react-router';
-
-const getIcon = (path) => {
-  return (leaflet.icon({
-    iconUrl: path,
-    iconSize: [30, 40]
-  }));
-};
-
 
 class Map extends PureComponent {
   constructor() {
     super();
     this.map = null;
-    this._markersGroup = [];
-    this.icon = getIcon(`img/pin.svg`);
-    this.iconActive = getIcon(`img/pin-active.svg`);
+    this.markers = [];
+    this.icon = leaflet.icon({
+      iconUrl: `img/pin.svg`,
+      iconSize: [30, 40],
+    });
+
+    this.iconActive = leaflet.icon({
+      iconUrl: `img/pin-active.svg`,
+      iconSize: [30, 40],
+    });
+
     this._highlightMarker = this._highlightMarker.bind(this);
-    this._addPins = this._addPins.bind(this);
   }
 
   _highlightMarker(offer) {
@@ -28,7 +25,7 @@ class Map extends PureComponent {
       .marker([offer.location.latitude, offer.location.longitude], {
         icon: this.iconActive,
       })
-      .addTo(this._markersGroup);
+      .addTo(this.map);
   }
 
   createMap() {
@@ -40,59 +37,43 @@ class Map extends PureComponent {
 
     const zoom = activeCity.location.zoom;
 
-    this.map = leaflet.map(`map-leaf`, {
+    this.map = leaflet.map(`map`, {
       center: city,
       zoom,
-      zoomControl: true,
-      attributionControl: true,
+      zoomControl: false,
       marker: true,
-
     });
-    // ',() => console.log(213)
+
     this.map.setView(city, zoom);
 
     this.leafletMap = this.map;
 
-    const layer = leaflet
+    leaflet
       .tileLayer(
         `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
         {
           attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         }
-      ).on('click', () => console.log(1))
+      )
       .addTo(this.map);
 
-    this._markersGroup = leaflet.layerGroup().addTo(this.map);
-    this.addMarkers();
-
-  }
-
-  _addPins() {
-    const {offers, activeOffer} = this.props;
-    this._markersGroup.clearLayers();
     offers.map((offer) => {
       leaflet
         .marker([offer.location.latitude, offer.location.longitude], {
           icon: this.icon,
         })
-        .addTo(this._markersGroup);
+        .addTo(this.map);
     });
     if (activeOffer) {
-      leaflet.circle([activeOffer.location.latitude, activeOffer.location.longitude], 2000, {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.1
-      }).addTo(this._markersGroup);
       leaflet
         .marker(
           [activeOffer.location.latitude, activeOffer.location.longitude],
           {icon: this.iconActive}
         )
-        .addTo(this._markersGroup);
+        .addTo(this.map);
     }
   }
-
 
   setCity() {
     const {activeCity} = this.props;
@@ -102,24 +83,23 @@ class Map extends PureComponent {
   }
 
   addMarkers() {
-    const {activeOffer, offers, history} = this.props;
-    this._markersGroup.clearLayers();
-    offers.map((offer) =>
+    const {activeOffer, offers} = this.props;
+    this.markers = offers.map((offer) =>
       leaflet
         .marker([offer.location.latitude, offer.location.longitude], {
           icon: this.icon,
-        }).on('click', (evt) => {
-        history.push(`/offer/${offer.id}`)
-      })
-        .addTo(this._markersGroup)
+        })
+        .addTo(this.map)
     );
     if (activeOffer) {
-      leaflet
-        .marker(
-          [activeOffer.location.latitude, activeOffer.location.longitude],
-          {icon: this.iconActive}
-        )
-        .addTo(this._markersGroup)
+      this.markers.push(
+        leaflet
+          .marker(
+            [activeOffer.location.latitude, activeOffer.location.longitude],
+            {icon: this.iconActive}
+          )
+          .addTo(this.map)
+      );
     }
   }
 
@@ -128,19 +108,16 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    this._markersGroup.clearLayers();
-    this.addMarkers();
-    this.setCity();
-    if(prevProps.highlightMarker !== this.props.marker && this.props.marker){
-      this._highlightMarker(this.props.marker)
+    if (
+      prevProps.offers !== this.offers ||
+      prevProps.activeCity !== this.activeCity ||
+      prevProps.activeOffer !== this.activeOffer
+    ) {
+      this.markers.forEach((marker) => marker.remove());
+      this.addMarkers();
+      this.setCity();
     }
-    // leaflet.circle([prevProps.activeOffer.location.latitude, prevProps.activeOffer.location.longitude], 2000, {
-    //   color: 'red',
-    //   fillColor: '#f03',
-    //   fillOpacity: 0.1
-    // }).addTo(this.map);
   }
-
   componentWillUnmount() {
     if (this.leafletMap) {
       this.leafletMap.eachLayer((layer) => {
@@ -150,10 +127,8 @@ class Map extends PureComponent {
       this.leafletMap = null;
     }
   }
-
   render() {
-    const {className, style} = this.props
-    return <section id="map-leaf" className={className} style={style}/>;
+    return <div id="map" style={{height: `100%`}}/>;
   }
 }
 
@@ -186,8 +161,4 @@ Map.propTypes = {
   }).isRequired,
 };
 
-
-const mapStateToProps = (state) => ({
-  highlightMarker: state[`SORT`].marker
-})
-export default connect(mapStateToProps)(withRouter(Map));
+export default NewMap;

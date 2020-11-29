@@ -9,8 +9,9 @@ class PlaceCardList extends PureComponent {
   }
 
   render() {
-    // eslint-disable-next-line react/prop-types
     const {offers, listClass, handleOfferHover} = this.props;
+    // eslint-disable-next-line react/prop-types
+    console.log(handleOfferHover)
     return (
       <div
         className={`${

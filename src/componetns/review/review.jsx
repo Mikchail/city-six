@@ -28,7 +28,6 @@ class Review extends PureComponent {
   }
   render() {
     const {rating, comment, date, user} = this.props.review;
-    console.log(this.props.review)
     const ratingReview = ratingToStar(rating);
     return (
       <li className="reviews__item">

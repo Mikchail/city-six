@@ -1,9 +1,11 @@
 import React, {PureComponent} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import history from '../../history'
 import {connect} from 'react-redux';
 import Main from '../main/main.jsx';
 import Offer from '../offer/offer.jsx';
 import SingIn from "../signin/signin";
+import Favorite from "../favorite/favorite";
 
 class App extends PureComponent {
   constructor(props) {
@@ -33,12 +35,15 @@ class App extends PureComponent {
             {this._renderAplication()}
           </Route>
           <Route path="/offer/:id">
-           <Offer/>
+            {this.props.loadCity ? <Offer/> : <div>Loading</div>}
           </Route>
           <Route path="/sign-in">
             <SingIn/>
           </Route>
 
+          <Route path="/favorites">
+            <Favorite/>
+          </Route>
           <Main />
         </Switch>
       </BrowserRouter>

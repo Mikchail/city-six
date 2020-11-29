@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 import {Operations as UserOperations} from '../../reducer/user-reducer'
 
 const SingIn = (props) => {
@@ -8,6 +8,7 @@ const SingIn = (props) => {
     password: ""
   })
   const dispatch = useDispatch();
+
   const handleChangeEmail = (evt) => {
     setUserData(Object.assign({}, userData, {email: evt.target.value}))
   }
