@@ -21,6 +21,7 @@ export const Operations = {
       dispatch(ActionCreator.signin(res.data))
       dispatch(ActionCreator.setError(false))
       dispatch(ActionCreator.setStatus(AuthorizationStatus.AUTH))
+      dispatch({type: `REDIRECT_TO_ROUTE`,payload: '/'})
     }).catch((err) => {
       dispatch(ActionCreator.setError(err))
       dispatch(ActionCreator.setStatus(AuthorizationStatus.NO_AUTH))

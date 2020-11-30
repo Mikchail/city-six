@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Router, Route, Switch} from 'react-router-dom';
 import history from '../../history'
 import {connect} from 'react-redux';
 import Main from '../main/main.jsx';
@@ -29,7 +29,7 @@ class App extends PureComponent {
   }
   render() {
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <Switch>
           <Route exact path="/">
             {this._renderAplication()}
@@ -44,9 +44,8 @@ class App extends PureComponent {
           <Route path="/favorites">
             <Favorite/>
           </Route>
-          <Main />
         </Switch>
-      </BrowserRouter>
+      </Router>
     );
   }
 }

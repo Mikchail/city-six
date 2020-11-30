@@ -10,11 +10,11 @@ import {ActionCreator} from './actions/action-creator';
 import reducer from './reducer/rootReducer';
 import App from './componetns/app/app.jsx';
 import {composeWithDevTools} from 'redux-devtools-extension';
-
+import { redirect  } from './history'
 const api = createApi();
 const store = createStore(
   reducer,
-  composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)))
+  composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)),applyMiddleware(redirect))
 );
 
 export const onError = (err) => {
