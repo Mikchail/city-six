@@ -6,6 +6,7 @@ import Main from '../main/main.jsx';
 import Offer from '../offer/offer.jsx';
 import SingIn from "../signin/signin";
 import Favorite from "../favorite/favorite";
+import Footer from "../footer/footer";
 
 class App extends PureComponent {
   constructor(props) {
@@ -45,6 +46,7 @@ class App extends PureComponent {
             <Favorite/>
           </Route>
         </Switch>
+        <Footer/>
       </Router>
     );
   }
